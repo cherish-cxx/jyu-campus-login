@@ -1,0 +1,32 @@
+{
+  "_说明": "以 _ 开头的键只是备注，脚本会忽略。密码是明文，本文件权限应为 600。",
+
+  "portal_ip": "210.38.161.189",
+  "user_id": "241110178",
+  "password": "jyu09210154",
+
+  "probe_url": "http://connect.rom.miui.com/generate_204",
+  "service": "实验室",
+
+  "password_mode": "auto",
+  "password_reverse": true,
+  "password_static": "",
+  "login_token": "",
+  "rsa_public_key": "",
+  "extra_fields": {},
+
+  "active_start": "07:00",
+  "active_end": "22:30",
+
+  "check_interval": 30,
+  "timeout": 8,
+  "verify_after_login": true,
+  "log_file": "campus_login.log",
+
+  "_active说明": "只在这段时间内检测和登录，22:30 之后彻底静默（不探测、不重试），07:00 自动恢复。留空表示全天。",
+  "_password_mode说明": "auto=自动找门户页里的 RSA 公钥加密（推荐）；rsa=强制用公钥；static=直接用抓包密文 password_static；plain=明文提交。",
+  "_password_reverse说明": "门户的新实现是 RSAUtils.encryptedString(key, password 反转)，所以保持 true。若登录报密码错误可试着改 false。",
+  "_service说明": "门户页上选的接入方式，原样提交，脚本会自动做 URL 编码。你这份抓包是「实验室」。",
+  "_password_static说明": "若 auto/rsa 一直失败，把浏览器抓到的 password（256 位十六进制，注意别复制少一位）填这里，并把 password_mode 改成 static。",
+  "_extra_fields说明": "登录接口若还要求别的字段，按 {\"字段名\": \"值\"} 写在这里，会原样并入请求。"
+}

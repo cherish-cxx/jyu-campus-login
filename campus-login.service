@@ -1,0 +1,36 @@
+# 校园网 ePortal 自动登录 —— systemd 服务
+#
+# 安装（在你自己的服务器上执行）：
+#   sudo mkdir -p /opt/campus-login
+#   sudo cp campus_login.py config.json /opt/campus-login/
+#   sudo chmod 600 /opt/campus-login/config.json
+#   sudo cp campus-login.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now campus-login
+#
+# 查看：systemctl status campus-login
+# 日志：journalctl -u campus-login -f     或   tail -f /opt/campus-login/campus_login.log
+# 停止：sudo systemctl disable --now campus-login
+
+[Unit]
+Description=校园网 ePortal 自动登录
+After=network-online.target
+Wants=network-online.target
+# 永远不要因为连续失败而放弃重启
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/campus-login
+ExecStart=/usr/bin/python3 /opt/campus-login/campus_login.py -c /opt/campus-login/config.json
+Restart=always
+RestartSec=30
+Environment=PYTHONUNBUFFERED=1
+
+# 默认以 root 运行，脚本不需要任何特权；想换成普通用户就取消注释并改成你的用户名
+# （记得把 /opt/campus-login 和里面文件的所有者一起改掉）
+#User=yourname
+#Group=yourname
+
+[Install]
+WantedBy=multi-user.target
